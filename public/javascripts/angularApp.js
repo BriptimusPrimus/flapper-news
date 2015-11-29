@@ -12,7 +12,7 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
   };
 
   o.create = function(post) {
-    return $http.post('/posts', post{
+    return $http.post('/posts', post, {
       headers: {Authorization: 'Bearer ' + auth.getToken()} 
     }).success(function(data){
       o.posts.push(data);
@@ -155,7 +155,7 @@ function($stateProvider, $urlRouterProvider) {
 app.controller('MainCtrl', [
 '$scope',
 'posts',
-'auth'
+'auth',
 function($scope, posts, auth){
   $scope.posts = posts.posts;
 
@@ -180,12 +180,12 @@ app.controller('PostsCtrl', [
 '$scope',
 'posts',
 'post',
-'auth'
+'auth',
 function($scope, posts, post, auth){
   $scope.post = post;
 
   $scope.isLoggedIn = auth.isLoggedIn;
-  
+
   $scope.addComment = function(){
     if(!$scope.body) { return; }
     posts.addComment(post._id, {
